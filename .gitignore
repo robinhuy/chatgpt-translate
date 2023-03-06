@@ -1,0 +1,7 @@
+node_modules/**/*
+build/
+css/style.min.css
+js/script.min.js
+
+# macOS
+.DS_Store

@@ -1,0 +1,47 @@
+a:visited {
+  color: #ffc107;
+}
+.form-inline label {
+  min-width: 190px;
+  text-align: right;
+  justify-content: flex-start;
+}
+.loading-wrapper {
+  min-height: 252px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  margin-bottom: 15px;
+}
+.table {
+  margin-bottom: 0;
+}
+.first-row th,
+.first-row td {
+  border-top: none;
+}
+.title-column {
+  width: 180px;
+}
+@media screen and (max-width: 575px) {
+  .form-inline label {
+    text-align: left;
+  }
+}
+@media screen and (min-width: 575px) {
+  input {
+    min-width: 350px;
+  }
+}
+@media screen and (min-width: 1300px) {
+  input {
+    min-width: 200px;
+  }
+}
+@media screen and (min-width: 1500px) {
+  input {
+    min-width: 250px;
+  }
+}

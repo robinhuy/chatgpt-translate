@@ -1,0 +1,25 @@
+{
+  "name": "chatgpt-translate",
+  "version": "1.0.0",
+  "description": "A Google Chrome extension that translates and corrects grammar errors in English.",
+  "scripts": {
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robinhuy/chatgpt-translate.git"
+  },
+  "author": "Robin Huy",
+  "license": "MIT",
+  "devDependencies": {
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-minify": "^3.1.0",
+    "imagemin-pngquant": "^9.0.2"
+  },
+  "dependencies": {}
+}
