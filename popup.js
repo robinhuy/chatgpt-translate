@@ -90,6 +90,5 @@ document.addEventListener("DOMContentLoaded", function () {
   displayRecentlyEmoticons();
   handleOnclickTab();
 
-  console.log("background", document.getElementById("link-full-page"));
-  document.getElementById("link-full-page").href = chrome.runtime.getURL("index.html");
+  document.getElementById("link-to-setting-page").href = chrome.runtime.getURL("index.html");
 });

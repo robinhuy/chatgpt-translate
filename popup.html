@@ -17,8 +17,6 @@
 
       #content,
       #footer,
-      #recently-emoticons,
-      #all-emoticons,
       h3,
       h4,
       .nav-tab,
@@ -28,29 +26,8 @@
       }
 
       #content {
-        padding: 15px 30px 15px 30px;
-        width: 400px;
-      }
-
-      #all-emoticons {
-        height: 220px;
-      }
-
-      .emoticon {
-        display: block;
-        float: left;
-        width: 34px;
-        height: 34px;
-        font-size: 20px;
-        line-height: 36px;
-        text-align: center;
-        text-indent: -2px;
-        cursor: pointer;
-      }
-
-      .emoticon:hover {
-        background-color: rgba(135, 195, 75, 0.5);
-        border-radius: 5px;
+        padding: 15px 20px;
+        width: 402px;
       }
 
       .nav-tab {
@@ -92,11 +69,12 @@
 
       #footer {
         margin-top: 9px;
-        padding: 10px;
+        padding: 15px 20px;
         background-color: #f0f0f0;
         color: #636363;
         font-size: 11px;
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
       }
     </style>
 
@@ -106,63 +84,23 @@
   <body>
     <div id="content">
       <ul class="nav-tab">
-        <li class="tab active"><a href="#standard-emoticons">Standard</a></li>
-        <li class="tab"><a href="#person-emoticons">Person</a></li>
-        <li class="tab"><a href="#animal-emoticons">Animal</a></li>
-        <li class="tab"><a href="#object-emoticons">Object</a></li>
+        <li class="tab active"><a href="#translate-tab">Translate</a></li>
+        <li class="tab"><a href="#correct-grammar-tab">Correct Grammar</a></li>
+        <li class="tab"><a href="#ask-anything-tab">Ask anything</a></li>
       </ul>
 
       <div id="all-emoticons">
-        <div id="standard-emoticons" class="tab-content active">
-          <span class="emoticon" title="Grinning Face With Smiling Eyes">&#x1F601;</span>
-          <span class="emoticon" title="Grimacing Face">&#x1F62C;</span>
-          <span class="emoticon" title="Face With Tears Of Joy">&#x1F602;</span>
-          <span class="emoticon" title="Smiling Face With Open Mouth">&#x1F603;</span>
-          <span class="emoticon" title="Smiling Face With Open Mouth And Smiling Eyes"
-            >&#x1F604;</span
-          >
-          <span class="emoticon" title="SSmiling Face With Open Mouth And Cold Sweat"
-            >&#x1F605;</span
-          >
-        </div>
+        <div id="translate-tab" class="tab-content active">translate</div>
 
-        <div id="person-emoticons" class="tab-content">
-          <span class="emoticon" title="Baby">&#x1F476;</span>
-          <span class="emoticon" title="Boy">&#x1F466;</span>
-          <span class="emoticon" title="Girl">&#x1F467;</span>
-          <span class="emoticon" title="Man">&#x1F468;</span>
-          <span class="emoticon" title="Tongue">&#x1F445;</span>
-          <span class="emoticon" title="Mouth">&#x1F444;</span>
-          <span class="emoticon" title="Kiss Mark">&#x1F48B;</span>
-        </div>
+        <div id="correct-grammar-tab" class="tab-content">Correct grammar</div>
 
-        <div id="animal-emoticons" class="tab-content">
-          <span class="emoticon" title="Cat Face">&#x1F431;</span>
-          <span class="emoticon" title="Grinning Cat Face With Smiling Eyes">&#x1F638;</span>
-          <span class="emoticon" title="Cat">&#x1F408;</span>
-          <span class="emoticon" title="Lion Face">&#x1F981;</span>
-          <span class="emoticon" title="Tiger Face">&#x1F42F;</span>
-          <span class="emoticon" title="Tiger">&#x1F405;</span>
-          <span class="emoticon" title="Leopard">&#x1F406;</span>
-          <span class="emoticon" title="Horse Face">&#x1F434;</span>
-          <span class="emoticon" title="Horse">&#x1F40E;</span>
-        </div>
-
-        <div id="object-emoticons" class="tab-content">
-          <span class="emoticon" title="Skull And Crossbones">&#x2620;</span>
-          <span class="emoticon" title="Person Taking Bath">&#x1F6C0;</span>
-          <span class="emoticon" title="Person in Bed">&#x1F6CC;</span>
-          <span class="emoticon" title="Radioactive Sign">&#9762;</span>
-          <span class="emoticon" title="Biohazard Sign">&#9763;</span>
-          <span class="emoticon" title="Orthodox Cross">&#9766;</span>
-          <span class="emoticon" title="Star And Crescent">&#9770;</span>
-        </div>
+        <div id="ask-anything-tab" class="tab-content">Available soon ...</div>
       </div>
     </div>
 
     <footer id="footer">
       <span>&#169; 2023 - Robin Huy</span>
-      <a id="link-full-page" href="#" target="_blank">Full page</a>
+      <a id="link-to-setting-page" href="#" target="_blank">Settings</a>
     </footer>
   </body>
 </html>
