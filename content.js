@@ -46,3 +46,47 @@ chrome.runtime.onMessage.addListener(function (request) {
     eieShowToast(request.icon);
   }
 });
+
+function createButton(text, handleClick) {
+  const button = document.createElement("button");
+  button.setAttribute("type", "button");
+  button.setAttribute("class", "btn btn-neutral");
+  button.innerText = text;
+  button.addEventListener("click", handleClick);
+  return button;
+}
+
+function handleCustomButtonClick(buttonType = 1) {
+  return function () {
+    const textarea = document.querySelector("main form textarea");
+
+    const text = buttonType === 1 ? "Dịch sang Tiếng Anh" : "Sửa lỗi ngữ pháp Tiếng Anh";
+
+    // If textarea does not has value
+    if (textarea.value === "") {
+      textarea.value = text + ":\n";
+      textarea.style.height = 25 + textarea.scrollHeight + "px";
+      textarea.focus();
+    }
+    // If textarea has value
+    else if (!textarea.value.startsWith(text)) {
+      textarea.value = text + ": \n" + textarea.value;
+
+      const btnSubmit = textarea.nextElementSibling;
+      btnSubmit.click();
+    }
+  };
+}
+
+// Add feature to Chat OpenAI
+if (window.location.host === "chat.openai.com") {
+  // Add button translate
+  const btnTranslate = createButton("Translate English", handleCustomButtonClick(1));
+
+  // Add button correct grammar
+  const btnCorrectGrammar = createButton("Correct Grammar", handleCustomButtonClick(2));
+
+  const chatToolbar = document.querySelector("main form > div > div");
+  chatToolbar.appendChild(btnTranslate);
+  chatToolbar.appendChild(btnCorrectGrammar);
+}
