@@ -1,6 +1,9 @@
 // Add feature to Chat OpenAI
 if (window.location.host === "chat.openai.com") {
-  function eieShowToast(icon) {
+  const textarea = document.querySelector("main form textarea");
+  const btnSubmit = textarea.nextElementSibling;
+
+  const eieShowToast = (icon) => {
     // Create toast container
     var toastContainer = document.createElement("div");
     toastContainer.style.top = "10%";
@@ -40,21 +43,19 @@ if (window.location.host === "chat.openai.com") {
     setTimeout(function () {
       document.body.removeChild(toastContainer);
     }, 3000);
-  }
+  };
 
-  function createButton(text, handleClick) {
+  const createButton = (text, handleClick) => {
     const button = document.createElement("button");
     button.setAttribute("type", "button");
     button.setAttribute("class", "btn btn-neutral");
     button.innerText = text;
     button.addEventListener("click", handleClick);
     return button;
-  }
+  };
 
-  function handleCustomButtonClick(buttonType = 1) {
+  const handleCustomButtonClick = (buttonType = 1) => {
     return function () {
-      const textarea = document.querySelector("main form textarea");
-
       const text = buttonType === 1 ? "Dịch sang Tiếng Anh" : "Sửa lỗi ngữ pháp Tiếng Anh";
 
       // If textarea does not has value
@@ -66,14 +67,12 @@ if (window.location.host === "chat.openai.com") {
       // If textarea has value
       else if (!textarea.value.startsWith(text)) {
         textarea.value = text + ": \n" + textarea.value;
-
-        const btnSubmit = textarea.nextElementSibling;
         btnSubmit.click();
       }
     };
-  }
+  };
 
-  function copyText(text) {
+  const copyText = (text) => {
     if ("clipboard" in navigator) {
       return navigator.clipboard.writeText(text);
     }
@@ -90,7 +89,22 @@ if (window.location.host === "chat.openai.com") {
     body.removeChild(node);
 
     return Promise.resolve();
-  }
+  };
+
+  const addButtonCopyToClipboard = () => {
+    const copyIcon = `<button>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
+        <path fill="white" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path>
+        <path fill="white" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+      </svg>
+    </button>`;
+    const responseTextElements = document.querySelectorAll(
+      "main > div.flex-1.overflow-hidden .flex.items-center .bg-gray-50 .relative .flex.justify-between .flex.self-end"
+    );
+    for (let responseTextElement of responseTextElements) {
+      responseTextElement.innerHTML = copyIcon;
+    }
+  };
 
   // Create button translate
   const btnTranslate = createButton("Translate English", handleCustomButtonClick(1));
@@ -103,8 +117,10 @@ if (window.location.host === "chat.openai.com") {
   chatToolbar.appendChild(btnTranslate);
   chatToolbar.appendChild(btnCorrectGrammar);
 
-  // Add button copy to clipboard
-  const copyIcon = `<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon d-inline-block">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-  </svg>`;
+  // Add button CopyToClipBoard after submit
+  btnSubmit.addEventListener("click", function () {
+    setTimeout(() => {
+      addButtonCopyToClipboard();
+    }, 100);
+  });
 }
