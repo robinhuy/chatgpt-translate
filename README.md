@@ -2,5 +2,5 @@
 
 ---
 
-A Google Chrome extension that translates and corrects grammar errors in English.
+A Google Chrome extension that translates and corrects grammar errors in English/Vietnamese.
 
