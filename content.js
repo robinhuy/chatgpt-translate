@@ -11,6 +11,20 @@ if (window.location.host === 'chat.openai.com') {
     [BUTTON_TYPE.CORRECT_GRAMMAR]: 'Sửa lỗi ngữ pháp Tiếng Anh',
   };
 
+  // Check when the page re-render
+  const targetNode = document.getElementById('__next');
+  const config = { attributes: false, childList: true, subtree: true };
+  const observer = new MutationObserver((mutationList, observer) => {
+    for (const mutation of mutationList) {
+      if (mutation.type === 'childList') {
+        console.log('A child node has been added or removed.', mutation);
+      }
+    }
+  });
+
+  // Start observing the target node for configured mutations
+  observer.observe(targetNode, config);
+
   window.addEventListener('load', () => {
     const textarea = document.querySelector('main form textarea');
     const btnSubmit = textarea.nextElementSibling;
