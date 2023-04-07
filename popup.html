@@ -7,6 +7,17 @@
   </head>
 
   <body>
+    <div id="starter">
+      <div class="d-flex">
+        <input id="chatgpt-api-key" type="text" placeholder="Input API Key" /> <button onclick="saveApiKey()">Save</button>
+      </div>
+
+      <p class="info">
+        Get your API Key
+        <a href="https://platform.openai.com/account/api-keys">here</a>
+      </p>
+    </div>
+
     <div id="content">
       <ul class="nav-tab">
         <li class="tab active"><a href="#translate-tab">Translate</a></li>
@@ -14,7 +25,7 @@
         <li class="tab"><a href="#ask-anything-tab">Ask anything</a></li>
       </ul>
 
-      <div id="all-emoticons">
+      <div>
         <div id="translate-tab" class="tab-content active">
           <div class="translate-form">
             <textarea placeholder="Enter text" rows="5"></textarea>
@@ -35,7 +46,9 @@
 
     <footer id="footer">
       <span>&#169; 2023 - Robin Huy</span>
-      <a id="link-to-setting-page" href="#" target="_blank">Extension Settings</a>
+      <a id="link-to-setting-page" href="#" target="_blank"
+        >Extension Settings</a
+      >
     </footer>
 
     <script src="js/popup.js"></script>

@@ -11,50 +11,55 @@ if (window.location.host === 'chat.openai.com') {
     [BUTTON_TYPE.CORRECT_GRAMMAR]: 'Sửa lỗi ngữ pháp Tiếng Anh',
   };
 
-  const createButton = (text, handleClick) => {
+  const createButton = (
+    textarea,
+    text,
+    buttonType = BUTTON_TYPE.TRANSLATE_ENGLISH
+  ) => {
+    const btnSubmit = textarea.nextElementSibling;
+
     const button = document.createElement('button');
     button.setAttribute('type', 'button');
     button.setAttribute('class', 'btn btn-neutral');
     button.innerText = text;
-    button.addEventListener('click', handleClick);
+
+    button.addEventListener('click', function () {
+      const text = BUTTON_CONTENT[buttonType];
+
+      // If textarea does not has value
+      if (textarea.value === '') {
+        textarea.value = text + ':\n';
+        textarea.style.height = 25 + textarea.scrollHeight + 'px';
+        textarea.focus();
+      }
+      // If textarea has value
+      else if (!textarea.value.startsWith(text)) {
+        textarea.value = text + ': \n' + textarea.value;
+        btnSubmit.click();
+      }
+    });
+
     return button;
   };
-
-  const handleCustomButtonClick =
-    (textarea) =>
-    (buttonType = BUTTON_TYPE.TRANSLATE_ENGLISH) => {
-      return function () {
-        const text = BUTTON_CONTENT[buttonType];
-
-        // If textarea does not has value
-        if (textarea.value === '') {
-          textarea.value = text + ':\n';
-          textarea.style.height = 25 + textarea.scrollHeight + 'px';
-          textarea.focus();
-        }
-        // If textarea has value
-        else if (!textarea.value.startsWith(text)) {
-          textarea.value = text + ': \n' + textarea.value;
-          btnSubmit.click();
-        }
-      };
-    };
 
   const addButtonsToChatToolbar = (textarea) => {
     // Create button Translate
     const btnTranslateEnglish = createButton(
+      textarea,
       'Translate English',
-      handleCustomButtonClick(textarea, BUTTON_TYPE.TRANSLATE_ENGLISH)
+      BUTTON_TYPE.TRANSLATE_ENGLISH
     );
     const btnTranslateVietnamese = createButton(
+      textarea,
       'Translate Vietnamese',
-      handleCustomButtonClick(textarea, BUTTON_TYPE.TRANSLATE_VIETNAMESE)
+      BUTTON_TYPE.TRANSLATE_VIETNAMESE
     );
 
     // Create button Correct grammar
     const btnCorrectGrammar = createButton(
+      textarea,
       'Correct Grammar',
-      handleCustomButtonClick(textarea, BUTTON_TYPE.CORRECT_GRAMMAR)
+      BUTTON_TYPE.CORRECT_GRAMMAR
     );
 
     // Add buttons
@@ -114,17 +119,16 @@ if (window.location.host === 'chat.openai.com') {
     const textarea = document.querySelector('main form textarea');
 
     if (textarea && currentUrl !== window.location.href) {
-      const btnSubmit = textarea.nextElementSibling;
       currentUrl = window.location.href;
-
       addButtonsToChatToolbar(textarea);
 
       // Add button CopyToClipBoard after submit
-      btnSubmit.addEventListener('click', function () {
-        setTimeout(() => {
-          addButtonCopyToClipboard();
-        }, 300);
-      });
+      // const btnSubmit = textarea.nextElementSibling;
+      // btnSubmit.addEventListener('click', function () {
+      //   setTimeout(() => {
+      //     addButtonCopyToClipboard();
+      //   }, 300);
+      // });
     }
   }, 2000);
 }

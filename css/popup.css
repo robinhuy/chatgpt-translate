@@ -4,9 +4,18 @@
 
 body {
   color: #252525;
-  font-family: "Roboto", arial, sans-serif;
+  font-family: 'Roboto', arial, sans-serif;
   font-size: 14px;
   margin: 0;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.info {
+  font-style: italic;
+  font-size: 0.8em;
 }
 
 #content,
