@@ -3,12 +3,16 @@ const STORAGE_API_KEY = 'chatgpt-api-key';
 /**
  * Save API Key to localstorage
  */
-function saveApiKey() {
-  var apiKey = document.getElementById('chatgpt-api-key').value;
-  if (typeof Storage !== 'undefined') {
-    localStorage.setItem(STORAGE_API_KEY, apiKey);
-    alert('The API key has been saved successfully.');
-  }
+function handleSaveApiKey() {
+  var btnSaveApiKey = document.getElementById('btn-save-api-key');
+
+  btnSaveApiKey.addEventListener('click', function () {
+    var apiKey = document.getElementById('chatgpt-api-key').value;
+    if (typeof Storage !== 'undefined') {
+      localStorage.setItem(STORAGE_API_KEY, apiKey);
+      alert('The API key has been saved successfully.');
+    }
+  });
 }
 
 /**
@@ -51,4 +55,5 @@ function updateFooterLink() {
 document.addEventListener('DOMContentLoaded', function () {
   handleOnclickTab();
   updateFooterLink();
+  handleSaveApiKey();
 });
