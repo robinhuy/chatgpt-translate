@@ -1,4 +1,4 @@
-const STORAGE_API_KEY = 'chatgpt-api-key';
+const STORAGE_API_KEY = 'storage-chatgpt-api-key';
 
 /**
  * Save API Key to localstorage
@@ -8,6 +8,17 @@ function saveApiKey() {
   if (typeof Storage !== 'undefined') {
     localStorage.setItem(STORAGE_API_KEY, apiKey);
     alert('The API key has been saved successfully.');
+  }
+}
+
+/**
+ * Get API Key from localstorage
+ */
+function getApiKey() {
+  if (typeof Storage !== 'undefined') {
+    return localStorage.getItem(STORAGE_API_KEY) || '';
+  } else {
+    return '';
   }
 }
 
