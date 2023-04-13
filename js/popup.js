@@ -1,13 +1,14 @@
 const STORAGE_API_KEY = 'storage-chatgpt-api-key';
+const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 /**
  * Save API Key to localstorage
  */
 function handleSaveApiKey() {
-  var btnSaveApiKey = document.getElementById('btn-save-api-key');
+  const btnSaveApiKey = document.getElementById('btn-save-api-key');
 
   btnSaveApiKey.addEventListener('click', function () {
-    var apiKey = document.getElementById('chatgpt-api-key').value;
+    const apiKey = document.getElementById('chatgpt-api-key').value;
     if (typeof Storage !== 'undefined') {
       localStorage.setItem(STORAGE_API_KEY, apiKey);
       alert('The API key has been saved successfully.');
@@ -27,15 +28,97 @@ function getApiKey() {
 }
 
 /**
+ * Handle the response from the API as a stream
+ */
+async function handleMessageStreamData(response, progressCallback) {
+  const reader = response.body.getReader();
+  let responseObj = {};
+
+  for (;;) {
+    const { done, value } = await reader.read();
+
+    if (done) break;
+
+    const lines = new TextDecoder('utf-8').decode(value).split('\n');
+
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        if (line.includes('[DONE]')) return responseObj;
+
+        try {
+          const data = JSON.parse(line.slice(6));
+          const delta = data.choices[0].delta;
+
+          for (const key in delta) {
+            if (!(key in responseObj)) responseObj[key] = delta[key];
+            else responseObj[key] += delta[key];
+
+            progressCallback(responseObj);
+          }
+        } catch (e) {
+          console.log('Error parsing line:', line);
+        }
+      }
+    }
+  }
+
+  return responseObj;
+}
+
+/**
+ * Display the streamed data on the screen
+ */
+function displayStreamData(message) {
+  console.log(message);
+}
+
+/**
+ * Handle the response from the API as a JSON object
+ */
+async function handleMessageJSONData(response) {
+  const data = await response.json();
+  console.log(data.choices[0].message);
+  return data.choices[0].message;
+}
+
+/**
+ * Call ChatGPT completion API
+ */
+async function sendMessage(message, useStream = false) {
+  const response = await fetch(CHATGPT_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getApiKey(),
+    },
+    body: JSON.stringify({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: message }],
+      stream: useStream,
+    }),
+  });
+
+  if (response.status !== 200) {
+    throw new Error(await response.text());
+  }
+
+  if (useStream) {
+    handleMessageStreamData(response, displayStreamData);
+  } else {
+    handleMessageJSONData(response);
+  }
+}
+
+/**
  * Handle event when user click to Tab
  */
 function handleOnclickTab() {
-  var tabs = document.getElementsByClassName('tab');
+  const tabs = document.getElementsByClassName('tab');
 
-  for (var i = 0; i < tabs.length; i++) {
+  for (let i = 0; i < tabs.length; i++) {
     tabs[i].addEventListener('click', function () {
       // Remove class "active" from all tabs
-      for (var j = 0; j < tabs.length; j++) {
+      for (let j = 0; j < tabs.length; j++) {
         tabs[j].classList.remove('active');
       }
 
@@ -43,13 +126,13 @@ function handleOnclickTab() {
       this.classList.add('active');
 
       // Hide all tab contents
-      var tabContents = document.getElementsByClassName('tab-content');
-      for (var k = 0; k < tabContents.length; k++) {
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let k = 0; k < tabContents.length; k++) {
         tabContents[k].style.display = 'none';
       }
 
       // Show chosen tab content
-      var tabId = this.children[0].getAttribute('href').replace('#', '');
+      const tabId = this.children[0].getAttribute('href').replace('#', '');
       document.getElementById(tabId).style.display = 'block';
     });
   }
