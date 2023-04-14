@@ -78,7 +78,8 @@ function displayStreamData(message) {
 async function handleMessageJSONData(response) {
   const data = await response.json();
   console.log(data.choices[0].message);
-  return data.choices[0].message;
+  document.getElementById('chatgpt-answer').innerText =
+    data.choices[0].message.content;
 }
 
 /**
@@ -146,8 +147,23 @@ function updateFooterLink() {
     chrome.runtime.getURL('index.html');
 }
 
+/**
+ * Handle event when user click to send question
+ */
+function handleAskChatGPT() {
+  const btnAskChatGPT = document.getElementById('btn-ask-chatgpt');
+  btnAskChatGPT.addEventListener('click', function () {
+    const message = document.getElementById('ask-chatgpt').value;
+    sendMessage(message);
+  });
+}
+
+/**
+ * Add event handlers when DOM loaded
+ */
 document.addEventListener('DOMContentLoaded', function () {
   handleOnclickTab();
   updateFooterLink();
   handleSaveApiKey();
+  handleAskChatGPT();
 });
