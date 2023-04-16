@@ -1,4 +1,5 @@
 const STORAGE_API_KEY = 'storage-chatgpt-api-key';
+const STORAGE_ACTIVE_TAB = 'storage-active-tab';
 const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 /**
@@ -9,10 +10,8 @@ function handleSaveApiKey() {
 
   btnSaveApiKey.addEventListener('click', function () {
     const apiKey = document.getElementById('chatgpt-api-key').value;
-    if (typeof Storage !== 'undefined') {
-      localStorage.setItem(STORAGE_API_KEY, apiKey);
-      alert('The API key has been saved successfully.');
-    }
+    localStorage.setItem(STORAGE_API_KEY, apiKey);
+    alert('The API key has been saved successfully.');
   });
 }
 
@@ -85,12 +84,12 @@ async function handleMessageJSONData(response) {
 /**
  * Call ChatGPT completion API
  */
-async function sendMessage(message, useStream = false) {
+async function sendMessage(token = '', message = '', useStream = false) {
   const response = await fetch(CHATGPT_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getApiKey(),
+      Authorization: 'Bearer ' + token,
     },
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',
@@ -118,6 +117,8 @@ function handleOnclickTab() {
 
   for (let i = 0; i < tabs.length; i++) {
     tabs[i].addEventListener('click', function () {
+      localStorage.setItem(STORAGE_ACTIVE_TAB, i.toString());
+
       // Remove class "active" from all tabs
       for (let j = 0; j < tabs.length; j++) {
         tabs[j].classList.remove('active');
@@ -151,10 +152,12 @@ function updateFooterLink() {
  * Handle event when user click to send question
  */
 function handleAskChatGPT() {
+  const token = getApiKey();
   const btnAskChatGPT = document.getElementById('btn-ask-chatgpt');
+
   btnAskChatGPT.addEventListener('click', function () {
     const message = document.getElementById('ask-chatgpt').value;
-    sendMessage(message);
+    sendMessage(message, token);
   });
 }
 
