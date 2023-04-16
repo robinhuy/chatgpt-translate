@@ -115,6 +115,7 @@ async function sendMessage(token = '', message = '', useStream = false) {
 function handleOnclickTab() {
   const tabs = document.getElementsByClassName('tab');
 
+  // Handle tab clicked
   for (let i = 0; i < tabs.length; i++) {
     tabs[i].addEventListener('click', function () {
       localStorage.setItem(STORAGE_ACTIVE_TAB, i.toString());
@@ -138,6 +139,10 @@ function handleOnclickTab() {
       document.getElementById(tabId).style.display = 'block';
     });
   }
+
+  // Open last active tab
+  const activeTab = +localStorage.getItem(STORAGE_ACTIVE_TAB);
+  tabs[activeTab].click();
 }
 
 /**
