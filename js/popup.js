@@ -12,6 +12,10 @@ function handleSaveApiKey() {
     const apiKey = document.getElementById('chatgpt-api-key').value;
     localStorage.setItem(STORAGE_API_KEY, apiKey);
     alert('The API key has been saved successfully.');
+
+    handleTranslate(apiKey);
+    handleCorrectGrammar(apiKey);
+    handleAskAnything(apiKey);
   });
 }
 
@@ -29,7 +33,7 @@ function getApiKey() {
 /**
  * Handle the response from the API as a stream
  */
-async function handleMessageStreamData(response, progressCallback) {
+async function handleMessageStreamData(displayElementId, response, progressCallback) {
   const reader = response.body.getReader();
   let responseObj = {};
 
@@ -52,7 +56,7 @@ async function handleMessageStreamData(response, progressCallback) {
             if (!(key in responseObj)) responseObj[key] = delta[key];
             else responseObj[key] += delta[key];
 
-            progressCallback(responseObj);
+            progressCallback(displayElementId, responseObj);
           }
         } catch (e) {
           console.log('Error parsing line:', line);
@@ -67,29 +71,28 @@ async function handleMessageStreamData(response, progressCallback) {
 /**
  * Display the streamed data on the screen
  */
-function displayStreamData(message) {
+function displayStreamData(displayElementId, message) {
   console.log(message);
 }
 
 /**
  * Handle the response from the API as a JSON object
  */
-async function handleMessageJSONData(response) {
+async function handleMessageJSONData(displayElementId, response) {
   const data = await response.json();
-  console.log(data.choices[0].message);
-  document.getElementById('chatgpt-answer').innerText =
-    data.choices[0].message.content;
+  document.getElementById(displayElementId).innerHTML =
+    'Answer:<br/>' + data.choices[0].message.content;
 }
 
 /**
  * Call ChatGPT completion API
  */
-async function sendMessage(token = '', message = '', useStream = false) {
+async function sendMessage(apiKey = '', message = '', displayElementId, useStream = false) {
   const response = await fetch(CHATGPT_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
+      Authorization: 'Bearer ' + apiKey,
     },
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',
@@ -103,9 +106,9 @@ async function sendMessage(token = '', message = '', useStream = false) {
   }
 
   if (useStream) {
-    handleMessageStreamData(response, displayStreamData);
+    handleMessageStreamData(displayElementId, response, displayStreamData);
   } else {
-    handleMessageJSONData(response);
+    handleMessageJSONData(displayElementId, response);
   }
 }
 
@@ -149,20 +152,44 @@ function handleOnclickTab() {
  * Update link in popup's footer
  */
 function updateFooterLink() {
-  document.getElementById('link-to-setting-page').href =
-    chrome.runtime.getURL('index.html');
+  document.getElementById('link-to-setting-page').href = chrome.runtime.getURL('index.html');
 }
 
 /**
- * Handle event when user click to send question
+ * Handle event when user click to button send of tab translate
  */
-function handleAskChatGPT() {
-  const token = getApiKey();
-  const btnAskChatGPT = document.getElementById('btn-ask-chatgpt');
+function handleTranslate(apiKey) {
+  const btnAskChatGPT = document.getElementById('btn-translate');
 
   btnAskChatGPT.addEventListener('click', function () {
-    const message = document.getElementById('ask-chatgpt').value;
-    sendMessage(token, message);
+    const message =
+      'Translate to English:\n' + document.getElementById('tab-translate-question').value;
+    sendMessage(apiKey, message, 'tab-translate-answer');
+  });
+}
+
+/**
+ * Handle event when user click to button send of tab correct grammar
+ */
+function handleCorrectGrammar(apiKey) {
+  const btnAskChatGPT = document.getElementById('btn-correct-grammar');
+
+  btnAskChatGPT.addEventListener('click', function () {
+    const message =
+      'Correct English Grammar:\n' + document.getElementById('tab-correct-grammar-question').value;
+    sendMessage(apiKey, message, 'tab-correct-grammar-answer');
+  });
+}
+
+/**
+ * Handle event when user click to button send of tab ask anything
+ */
+function handleAskAnything(apiKey) {
+  const btnAskChatGPT = document.getElementById('btn-ask-anything');
+
+  btnAskChatGPT.addEventListener('click', function () {
+    const message = document.getElementById('tab-ask-anything-question').value;
+    sendMessage(apiKey, message, 'tab-ask-anything-answer');
   });
 }
 
@@ -173,5 +200,11 @@ document.addEventListener('DOMContentLoaded', function () {
   handleOnclickTab();
   updateFooterLink();
   handleSaveApiKey();
-  handleAskChatGPT();
+
+  const apiKey = getApiKey();
+  if (apiKey) {
+    handleTranslate(apiKey);
+    handleCorrectGrammar(apiKey);
+    handleAskAnything(apiKey);
+  }
 });
