@@ -162,7 +162,7 @@ function handleAskChatGPT() {
 
   btnAskChatGPT.addEventListener('click', function () {
     const message = document.getElementById('ask-chatgpt').value;
-    sendMessage(message, token);
+    sendMessage(token, message);
   });
 }
 

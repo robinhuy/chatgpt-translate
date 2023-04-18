@@ -30,21 +30,63 @@
 
       <div>
         <div id="translate-tab" class="tab-content active">
-          <div class="translate-form">
-            <textarea placeholder="Enter text" rows="5"></textarea>
+          <div id="chatgpt-translate-answer" class="chatgpt-answer"></div>
 
-            <textarea rows="5"></textarea>
+          <div class="chat-input-wrapper">
+            <textarea
+              id="chatgpt-translate"
+              placeholder="Enter the content"
+            ></textarea>
+            <button id="btn-chatgpt-translate">
+              <svg
+                stroke="currentColor"
+                fill="none"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4 mr-1"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
           </div>
         </div>
 
         <div id="correct-grammar-tab" class="tab-content">
-          <textarea placeholder="Enter text" rows="5"></textarea>
+          <div id="chatgpt-correct-grammar-answer" class="chatgpt-answer"></div>
 
-          <textarea rows="5"></textarea>
+          <div class="chat-input-wrapper">
+            <textarea
+              id="chatgpt-correct-grammar"
+              placeholder="Enter the content"
+            ></textarea>
+            <button id="btn-chatgpt-correct-grammar">
+              <svg
+                stroke="currentColor"
+                fill="none"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4 mr-1"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div id="ask-anything-tab" class="tab-content">
-          <div id="chatgpt-answer"></div>
+          <div id="chatgpt-answer" class="chatgpt-answer"></div>
 
           <div class="chat-input-wrapper">
             <textarea
