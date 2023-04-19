@@ -13,6 +13,43 @@ body {
   display: flex;
 }
 
+.text-input {
+  padding: 6px 12px;
+  color: #353740;
+  border: 1px solid #c5c5d2;
+  border-radius: 3px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.text-input:focus {
+  border-color: #10a37f;
+  box-shadow: 0 0 0 0.2rem rgba(16, 163, 127, 0.3);
+  outline: 0;
+}
+
+.text-input:focus-visible {
+  box-shadow: 0px 0px 0px 1px #10a37f;
+}
+
+.btn-primary {
+  padding: 6px 12px;
+  background-color: #10a37f;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: box-shadow 0.3s, background-color 0.3s, color 0.3s;
+  user-select: none;
+}
+
+.btn-primary:hover {
+  background-color: #1a7f64;
+}
+
+.text-input + .btn-primary {
+  margin-left: 8px;
+}
+
 .info {
   font-style: italic;
   font-size: 0.8em;
