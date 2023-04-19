@@ -33,7 +33,12 @@ function getApiKey() {
 /**
  * Handle the response from the API as a stream
  */
-async function handleMessageStreamData(displayElementId, response, progressCallback) {
+async function handleMessageStreamData(
+  questionElementId,
+  answerElementId,
+  response,
+  progressCallback
+) {
   const reader = response.body.getReader();
   let responseObj = {};
 
@@ -56,7 +61,7 @@ async function handleMessageStreamData(displayElementId, response, progressCallb
             if (!(key in responseObj)) responseObj[key] = delta[key];
             else responseObj[key] += delta[key];
 
-            progressCallback(displayElementId, responseObj);
+            progressCallback(questionElementId, answerElementId, responseObj);
           }
         } catch (e) {
           console.log('Error parsing line:', line);
@@ -71,23 +76,35 @@ async function handleMessageStreamData(displayElementId, response, progressCallb
 /**
  * Display the streamed data on the screen
  */
-function displayStreamData(displayElementId, message) {
+function displayStreamData(questionElementId, answerElementId, message) {
   console.log(message);
 }
 
 /**
  * Handle the response from the API as a JSON object
  */
-async function handleMessageJSONData(displayElementId, response) {
+async function handleMessageJSONData(questionElementId, answerElementId, response) {
+  const questionElement = document.getElementById(questionElementId);
+  const question = questionElement.value;
   const data = await response.json();
-  document.getElementById(displayElementId).innerHTML =
-    'Answer:<br/>' + data.choices[0].message.content;
+  const answer = data?.choices[0]?.message?.content;
+
+  document.getElementById(
+    answerElementId
+  ).innerHTML = `Question:<br/>${question}<br/>Answer:<br/>${answer}`;
+  questionElement.value = '';
 }
 
 /**
  * Call ChatGPT completion API
  */
-async function sendMessage(apiKey = '', message = '', displayElementId, useStream = false) {
+async function sendMessage(
+  apiKey = '',
+  message = '',
+  questionElementId,
+  answerElementId,
+  useStream = false
+) {
   const response = await fetch(CHATGPT_API_URL, {
     method: 'POST',
     headers: {
@@ -106,9 +123,9 @@ async function sendMessage(apiKey = '', message = '', displayElementId, useStrea
   }
 
   if (useStream) {
-    handleMessageStreamData(displayElementId, response, displayStreamData);
+    handleMessageStreamData(questionElementId, answerElementId, response, displayStreamData);
   } else {
-    handleMessageJSONData(displayElementId, response);
+    handleMessageJSONData(questionElementId, answerElementId, response);
   }
 }
 
@@ -164,7 +181,7 @@ function handleTranslate(apiKey) {
   btnAskChatGPT.addEventListener('click', function () {
     const message =
       'Translate to English:\n' + document.getElementById('tab-translate-question').value;
-    sendMessage(apiKey, message, 'tab-translate-answer');
+    sendMessage(apiKey, message, 'tab-translate-question', 'tab-translate-answer');
   });
 }
 
@@ -177,7 +194,7 @@ function handleCorrectGrammar(apiKey) {
   btnAskChatGPT.addEventListener('click', function () {
     const message =
       'Correct English Grammar:\n' + document.getElementById('tab-correct-grammar-question').value;
-    sendMessage(apiKey, message, 'tab-correct-grammar-answer');
+    sendMessage(apiKey, message, 'tab-correct-grammar-question', 'tab-correct-grammar-answer');
   });
 }
 
@@ -189,7 +206,7 @@ function handleAskAnything(apiKey) {
 
   btnAskChatGPT.addEventListener('click', function () {
     const message = document.getElementById('tab-ask-anything-question').value;
-    sendMessage(apiKey, message, 'tab-ask-anything-answer');
+    sendMessage(apiKey, message, 'tab-ask-anything-question', 'tab-ask-anything-answer');
   });
 }
 
