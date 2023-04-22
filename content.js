@@ -11,11 +11,7 @@ if (window.location.host === 'chat.openai.com') {
     [BUTTON_TYPE.CORRECT_GRAMMAR]: 'Sửa lỗi ngữ pháp Tiếng Anh',
   };
 
-  const createButton = (
-    textarea,
-    text,
-    buttonType = BUTTON_TYPE.TRANSLATE_ENGLISH
-  ) => {
+  const createButton = (textarea, text, buttonType = BUTTON_TYPE.TRANSLATE_ENGLISH) => {
     const btnSubmit = textarea.nextElementSibling;
 
     const button = document.createElement('button');
@@ -63,7 +59,7 @@ if (window.location.host === 'chat.openai.com') {
     );
 
     // Add buttons
-    const chatToolbar = document.querySelector('main form > div > div');
+    const chatToolbar = document.querySelector('main form .relative .h-full.flex');
     chatToolbar.appendChild(btnTranslateEnglish);
     chatToolbar.appendChild(btnTranslateVietnamese);
     chatToolbar.appendChild(btnCorrectGrammar);
@@ -97,8 +93,8 @@ if (window.location.host === 'chat.openai.com') {
       </svg>`;
     btnCopyToClipboard.addEventListener('click', () => {
       const answerElement =
-        this.parentElement.parentElement.parentElement.firstElementChild
-          .firstElementChild.firstElementChild;
+        this.parentElement.parentElement.parentElement.firstElementChild.firstElementChild
+          .firstElementChild;
       console.log('--- click ---', answerElement);
     });
 
