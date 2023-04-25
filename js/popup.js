@@ -4,6 +4,18 @@ const STORAGE_ACTIVE_TAB = 'storage-active-tab';
 const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 /**
+ * Clear events of an element and its surroundings
+ */
+function clearEvents(element) {
+  const parent = element.parentNode;
+
+  if (parent) {
+    const clone = element.cloneNode(true);
+    parent.replaceChild(clone, element);
+  }
+}
+
+/**
  * Handle save settings to localstorage
  */
 function handleSaveSettings() {
@@ -95,7 +107,7 @@ async function handleMessageStreamData(
  * Display the streamed data on the screen
  */
 function displayStreamData(questionElementId, answerElementId, message) {
-  console.log(message);
+  console.log(questionElementId, answerElementId, message);
 }
 
 /**
