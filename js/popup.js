@@ -204,6 +204,21 @@ function updateFooterLink() {
 }
 
 /**
+ * Handle event when user inputs a question
+ */
+function handleInputQuestion() {
+  function autoGrow(event) {
+    const element = event.target;
+    element.style.height = '5px';
+    element.style.height = element.scrollHeight + 'px';
+  }
+
+  document.getElementById('tab-translate-question').addEventListener('input', autoGrow);
+  document.getElementById('tab-correct-grammar-question').addEventListener('input', autoGrow);
+  document.getElementById('tab-ask-anything-question').addEventListener('input', autoGrow);
+}
+
+/**
  * Handle event when user click to button send of tab translate
  */
 function handleTranslate(apiKey, chatModel) {
@@ -254,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
   handleOnclickTab();
   updateFooterLink();
   handleSaveSettings();
+  handleInputQuestion();
 
   const { apiKey, chatModel } = loadSettings();
 
