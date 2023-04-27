@@ -117,11 +117,11 @@ async function handleMessageJSONData(questionElementId, answerElementId, respons
   const questionElement = document.getElementById(questionElementId);
   const question = questionElement.value;
   const data = await response.json();
-  const answer = data?.choices[0]?.message?.content;
+  const answer = marked.parse(data?.choices[0]?.message?.content);
 
   document.getElementById(
     answerElementId
-  ).innerHTML = `Question:<br/>${question}<br/>Answer:<br/>${answer}`;
+  ).innerHTML = `<h3>Question:</h3>${question}<br/><br/><h3>Answer:</h3>${answer}`;
   questionElement.value = '';
 }
 
