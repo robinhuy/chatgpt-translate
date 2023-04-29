@@ -13,7 +13,12 @@ body {
   display: flex;
 }
 
+.mr-10 {
+  margin-right: 10px;
+}
+
 .text-input {
+  width: 100%;
   padding: 6px 12px;
   color: #353740;
   border: 1px solid #c5c5d2;
@@ -32,6 +37,7 @@ body {
 }
 
 .btn-primary {
+  min-width: 100px;
   padding: 6px 12px;
   background-color: #10a37f;
   color: #fff;
@@ -44,10 +50,6 @@ body {
 
 .btn-primary:hover {
   background-color: #1a7f64;
-}
-
-.text-input + .btn-primary {
-  margin-left: 8px;
 }
 
 .info {
@@ -65,9 +67,13 @@ h4,
   width: 100%;
 }
 
+#starter {
+  padding: 20px;
+}
+
 #content {
   padding: 15px 20px;
-  width: 402px;
+  width: 500px;
 }
 
 .nav-tab {
