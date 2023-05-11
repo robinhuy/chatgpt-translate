@@ -150,7 +150,8 @@ async function sendMessage(
   });
 
   if (response.status !== 200) {
-    throw new Error(await response.text());
+    const errorMessage = await response.text();
+    alert('Error: \n' + errorMessage);
   }
 
   if (useStream) {
