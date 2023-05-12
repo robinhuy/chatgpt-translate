@@ -63,12 +63,7 @@ function loadSettings() {
 /**
  * Handle the response from the API as a stream
  */
-async function handleMessageStreamData(
-  questionElementId,
-  answerElementId,
-  response,
-  progressCallback
-) {
+async function handleMessageStreamData(questionElementId, answerElementId, response, progressCallback) {
   const reader = response.body.getReader();
   let responseObj = {};
 
@@ -226,8 +221,10 @@ function handleTranslate(apiKey, chatModel) {
   const btnAskChatGPT = document.getElementById('btn-translate');
 
   btnAskChatGPT.addEventListener('click', function () {
-    const message =
-      'Translate to English:\n' + document.getElementById('tab-translate-question').value;
+    const language = document.getElementById('select-language').value || 'English';
+    const question = document.getElementById('tab-translate-question').value || '';
+    const message = `Translate to ${language}:\n${question}`;
+
     sendMessage(apiKey, chatModel, message, 'tab-translate-question', 'tab-translate-answer');
   });
 }
@@ -239,15 +236,8 @@ function handleCorrectGrammar(apiKey, chatModel) {
   const btnAskChatGPT = document.getElementById('btn-correct-grammar');
 
   btnAskChatGPT.addEventListener('click', function () {
-    const message =
-      'Correct English Grammar:\n' + document.getElementById('tab-correct-grammar-question').value;
-    sendMessage(
-      apiKey,
-      chatModel,
-      message,
-      'tab-correct-grammar-question',
-      'tab-correct-grammar-answer'
-    );
+    const message = 'Correct English Grammar:\n' + document.getElementById('tab-correct-grammar-question').value;
+    sendMessage(apiKey, chatModel, message, 'tab-correct-grammar-question', 'tab-correct-grammar-answer');
   });
 }
 
