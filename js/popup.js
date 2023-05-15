@@ -221,7 +221,7 @@ function handleTranslate(apiKey, chatModel) {
   const btnAskChatGPT = document.getElementById('btn-translate');
 
   btnAskChatGPT.addEventListener('click', function () {
-    const language = document.getElementById('select-language').value || 'English';
+    const language = document.getElementById('select-translate-language').value || 'English';
     const question = document.getElementById('tab-translate-question').value || '';
     const message = `Translate to ${language}:\n${question}`;
 
@@ -236,7 +236,10 @@ function handleCorrectGrammar(apiKey, chatModel) {
   const btnAskChatGPT = document.getElementById('btn-correct-grammar');
 
   btnAskChatGPT.addEventListener('click', function () {
-    const message = 'Correct English Grammar:\n' + document.getElementById('tab-correct-grammar-question').value;
+    const language = document.getElementById('select-correct-grammar-language').value || 'English';
+    const question = document.getElementById('tab-correct-grammar-question').value || '';
+    const message = `Correct ${language} Grammar:\n${question}`;
+
     sendMessage(apiKey, chatModel, message, 'tab-correct-grammar-question', 'tab-correct-grammar-answer');
   });
 }

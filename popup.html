@@ -1,139 +1,108 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <title>ChatGPT Translate</title>
-    <link rel="stylesheet" href="css/popup.css" />
-  </head>
 
-  <body>
-    <div id="starter">
-      <div class="d-flex">
-        <input
-          id="chatgpt-api-key"
-          class="text-input mr-10"
-          type="text"
-          placeholder="Input API Key"
-        />
+<head>
+  <title>ChatGPT Translate</title>
+  <link rel="stylesheet" href="css/popup.css" />
+</head>
 
-        <select id="chatgpt-model" class="mr-10">
-          <option value="gpt-3.5-turbo">GPT 3.5 Turbo</option>
-          <!-- <option value="gpt-4">GPT 4</option> -->
+<body>
+  <div id="starter">
+    <div class="d-flex">
+      <input id="chatgpt-api-key" class="mr-10" type="text" placeholder="Input API Key" />
+
+      <select id="chatgpt-model" class="mr-10">
+        <option value="gpt-3.5-turbo">GPT 3.5 Turbo</option>
+        <!-- <option value="gpt-4">GPT 4</option> -->
+      </select>
+
+      <button id="btn-save-settings" class="btn-primary">Save</button>
+    </div>
+
+    <p class="info">
+      Get your API Key
+      <a href="https://platform.openai.com/account/api-keys" target="_blank">here</a>
+    </p>
+  </div>
+
+  <div id="content">
+    <ul class="nav-tab">
+      <li class="tab active"><a href="#tab-translate">Translate</a></li>
+      <li class="tab"><a href="#tab-correct-grammar">Correct Grammar</a></li>
+      <li class="tab"><a href="#tab-ask-anything">Ask anything</a></li>
+    </ul>
+
+    <div>
+      <div id="tab-translate" class="tab-content active">
+        Translate to
+        <select id="select-translate-language">
+          <option value="English" selected>English</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Korean">Korean</option>
         </select>
 
-        <button id="btn-save-settings" class="btn-primary">Save</button>
+        <div id="tab-translate-answer" class="chatgpt-answer"></div>
+
+        <div class="chat-input-wrapper">
+          <textarea id="tab-translate-question" placeholder="Enter the content"></textarea>
+          <button id="btn-translate">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+              stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <p class="info">
-        Get your API Key
-        <a href="https://platform.openai.com/account/api-keys" target="_blank">here</a>
-      </p>
-    </div>
+      <div id="tab-correct-grammar" class="tab-content">
+        Correct Grammar for
+        <select id="select-correct-grammar-language">
+          <option value="English" selected>English</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Korean">Korean</option>
+        </select>
 
-    <div id="content">
-      <ul class="nav-tab">
-        <li class="tab active"><a href="#tab-translate">Translate</a></li>
-        <li class="tab"><a href="#tab-correct-grammar">Correct Grammar</a></li>
-        <li class="tab"><a href="#tab-ask-anything">Ask anything</a></li>
-      </ul>
+        <div id="tab-correct-grammar-answer" class="chatgpt-answer"></div>
 
-      <div>
-        <div id="tab-translate" class="tab-content active">
-          Translate to
-          <select id="select-language">
-            <option value="English" selected>English</option>
-            <option value="Vietnamese">Vietnamese</option>
-            <option value="Japanese">Japanese</option>
-            <option value="Korean">Korean</option>
-          </select>
-
-          <div id="tab-translate-answer" class="chatgpt-answer"></div>
-
-          <div class="chat-input-wrapper">
-            <textarea id="tab-translate-question" placeholder="Enter the content"></textarea>
-            <button id="btn-translate">
-              <svg
-                stroke="currentColor"
-                fill="none"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-4 w-4 mr-1"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </div>
+        <div class="chat-input-wrapper">
+          <textarea id="tab-correct-grammar-question" placeholder="Enter the content"></textarea>
+          <button id="btn-correct-grammar">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+              stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
         </div>
+      </div>
 
-        <div id="tab-correct-grammar" class="tab-content">
-          Correct Grammar for
-          <select>
-            <option selected>English</option>
-          </select>
+      <div id="tab-ask-anything" class="tab-content">
+        <div id="tab-ask-anything-answer" class="chatgpt-answer"></div>
 
-          <div id="tab-correct-grammar-answer" class="chatgpt-answer"></div>
-
-          <div class="chat-input-wrapper">
-            <textarea id="tab-correct-grammar-question" placeholder="Enter the content"></textarea>
-            <button id="btn-correct-grammar">
-              <svg
-                stroke="currentColor"
-                fill="none"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-4 w-4 mr-1"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div id="tab-ask-anything" class="tab-content">
-          <div id="tab-ask-anything-answer" class="chatgpt-answer"></div>
-
-          <div class="chat-input-wrapper">
-            <textarea id="tab-ask-anything-question" placeholder="Enter the question"></textarea>
-            <button id="btn-ask-anything">
-              <svg
-                stroke="currentColor"
-                fill="none"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-4 w-4 mr-1"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </div>
+        <div class="chat-input-wrapper">
+          <textarea id="tab-ask-anything-question" placeholder="Enter the question"></textarea>
+          <button id="btn-ask-anything">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+              stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <footer id="footer">
-      <span>&#169; 2023 - Robin Huy</span>
-      <a id="link-to-setting-page" href="#" target="_blank">Extension Settings</a>
-    </footer>
+  <footer id="footer">
+    <span>&#169; 2023 - Robin Huy</span>
+    <a id="link-to-setting-page" href="#" target="_blank">Extension Settings</a>
+  </footer>
 
-    <script src="js/marked.min.js"></script>
-    <script src="js/popup.js"></script>
-  </body>
+  <script src="js/marked.min.js"></script>
+  <script src="js/popup.js"></script>
+</body>
+
 </html>

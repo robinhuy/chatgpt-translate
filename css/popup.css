@@ -9,15 +9,7 @@ body {
   margin: 0;
 }
 
-.d-flex {
-  display: flex;
-}
-
-.mr-10 {
-  margin-right: 10px;
-}
-
-.text-input {
+input[type='text'] {
   width: 100%;
   padding: 6px 12px;
   color: #353740;
@@ -26,26 +18,41 @@ body {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.text-input:focus {
+input[type='text']:focus {
   border-color: #10a37f;
   box-shadow: 0 0 0 0.2rem rgba(16, 163, 127, 0.3);
   outline: 0;
 }
 
-.text-input:focus-visible {
+input[type='text']:focus-visible {
   box-shadow: 0px 0px 0px 1px #10a37f;
 }
 
-.btn-primary {
+select {
+  padding: 2px 4px;
+}
+
+button {
   min-width: 100px;
   padding: 6px 12px;
-  background-color: #10a37f;
-  color: #fff;
   border: none;
   border-radius: 3px;
   cursor: pointer;
   transition: box-shadow 0.3s, background-color 0.3s, color 0.3s;
   user-select: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #10a37f;
+  color: #fff;
 }
 
 .btn-primary:hover {
