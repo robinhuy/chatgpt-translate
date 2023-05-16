@@ -200,6 +200,18 @@ function updateFooterLink() {
 }
 
 /**
+ * Toggle the setting section
+ */
+function toggleSettingSection(isShow = true) {
+  const settingSectionElement = document.getElementById('setting-section');
+  if (isShow) {
+    settingSectionElement.setAttribute('class', '');
+  } else {
+    settingSectionElement.setAttribute('class', 'd-none');
+  }
+}
+
+/**
  * Handle event when user inputs a question
  */
 function handleInputQuestion() {
@@ -261,15 +273,28 @@ function handleAskAnything(apiKey, chatModel) {
  */
 document.addEventListener('DOMContentLoaded', function () {
   handleOnclickTab();
-  updateFooterLink();
+  // updateFooterLink();
   handleSaveSettings();
   handleInputQuestion();
 
   const { apiKey, chatModel } = loadSettings();
+  const settingSectionElement = document.getElementById('setting-section');
 
   if (apiKey) {
     handleTranslate(apiKey, chatModel);
     handleCorrectGrammar(apiKey, chatModel);
     handleAskAnything(apiKey, chatModel);
+    settingSectionElement.setAttribute('class', 'd-none');
   }
+
+  const toggleSettingSectionElement = document.getElementById('toggle-setting-section');
+  toggleSettingSectionElement.addEventListener('click', function () {
+    if (settingSectionElement.getAttribute('class') === 'd-none') {
+      settingSectionElement.setAttribute('class', '');
+      toggleSettingSectionElement.innerText = 'Show Settings';
+    } else {
+      settingSectionElement.setAttribute('class', 'd-none');
+      toggleSettingSectionElement.innerText = 'Hide Settings';
+    }
+  });
 });

@@ -46,6 +46,10 @@ button {
   display: flex;
 }
 
+.d-none {
+  display: none;
+}
+
 .mr-10 {
   margin-right: 10px;
 }
@@ -74,7 +78,7 @@ h4,
   width: 100%;
 }
 
-#starter {
+#setting-section {
   padding: 20px;
 }
 
