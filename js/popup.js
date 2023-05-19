@@ -64,8 +64,15 @@ function loadSettings() {
  * Handle the response from the API as a stream
  */
 async function handleMessageStreamData(questionElementId, answerElementId, response, progressCallback) {
+  const questionElement = document.getElementById(questionElementId);
+  const answerElement = document.getElementById(answerElementId);
+  const question = questionElement.value;
   const reader = response.body.getReader();
+  const startWord = 'data:';
   let responseObj = {};
+
+  answerElement.innerHTML = `<h3>Question:</h3>${question}<br/><br/><h3>Answer:</h3>`;
+  questionElement.value = '';
 
   for (;;) {
     const { done, value } = await reader.read();
@@ -75,19 +82,15 @@ async function handleMessageStreamData(questionElementId, answerElementId, respo
     const lines = new TextDecoder('utf-8').decode(value).split('\n');
 
     for (const line of lines) {
-      if (line.startsWith('data: ')) {
+      if (line.startsWith(startWord)) {
         if (line.includes('[DONE]')) return responseObj;
 
         try {
-          const data = JSON.parse(line.slice(6));
-          const delta = data.choices[0].delta;
+          const strData = line.slice(startWord.length);
+          const jsonData = JSON.parse(strData);
+          const content = jsonData.choices[0].delta.content || '';
 
-          for (const key in delta) {
-            if (!(key in responseObj)) responseObj[key] = delta[key];
-            else responseObj[key] += delta[key];
-
-            progressCallback(questionElementId, answerElementId, responseObj);
-          }
+          answerElement.innerHTML += content;
         } catch (e) {
           console.log('Error parsing line:', line);
         }
@@ -96,13 +99,6 @@ async function handleMessageStreamData(questionElementId, answerElementId, respo
   }
 
   return responseObj;
-}
-
-/**
- * Display the streamed data on the screen
- */
-function displayStreamData(questionElementId, answerElementId, message) {
-  console.log(questionElementId, answerElementId, message);
 }
 
 /**
@@ -237,7 +233,7 @@ function handleTranslate(apiKey, chatModel) {
     const question = document.getElementById('tab-translate-question').value || '';
     const message = `Translate to ${language}:\n${question}`;
 
-    sendMessage(apiKey, chatModel, message, 'tab-translate-question', 'tab-translate-answer');
+    sendMessage(apiKey, chatModel, message, 'tab-translate-question', 'tab-translate-answer', true);
   });
 }
 
@@ -252,7 +248,7 @@ function handleCorrectGrammar(apiKey, chatModel) {
     const question = document.getElementById('tab-correct-grammar-question').value || '';
     const message = `Correct ${language} Grammar:\n${question}`;
 
-    sendMessage(apiKey, chatModel, message, 'tab-correct-grammar-question', 'tab-correct-grammar-answer');
+    sendMessage(apiKey, chatModel, message, 'tab-correct-grammar-question', 'tab-correct-grammar-answer', true);
   });
 }
 
@@ -264,7 +260,7 @@ function handleAskAnything(apiKey, chatModel) {
 
   btnAskChatGPT.addEventListener('click', function () {
     const message = document.getElementById('tab-ask-anything-question').value;
-    sendMessage(apiKey, chatModel, message, 'tab-ask-anything-question', 'tab-ask-anything-answer');
+    sendMessage(apiKey, chatModel, message, 'tab-ask-anything-question', 'tab-ask-anything-answer', true);
   });
 }
 
