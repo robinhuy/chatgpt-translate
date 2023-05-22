@@ -141,8 +141,9 @@ async function sendMessage(
   });
 
   if (response.status !== 200) {
-    const errorMessage = await response.text();
-    alert('Error: \n' + errorMessage);
+    const errorMessage = await response.json();
+    alert(errorMessage?.error?.message);
+    return;
   }
 
   if (useStream) {
