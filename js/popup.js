@@ -12,7 +12,10 @@ function clearEvents(element) {
   if (parent) {
     const clone = element.cloneNode(true);
     parent.replaceChild(clone, element);
+    return clone;
   }
+
+  return element;
 }
 
 /**
@@ -63,7 +66,7 @@ function loadSettings() {
 /**
  * Handle the response from the API as a stream
  */
-async function handleMessageStreamData(questionElementId, answerElementId, response, progressCallback) {
+async function handleMessageStreamData(questionElementId, answerElementId, response) {
   const questionElement = document.getElementById(questionElementId);
   const answerElement = document.getElementById(answerElementId);
   const question = questionElement.value;
@@ -147,7 +150,7 @@ async function sendMessage(
   }
 
   if (useStream) {
-    handleMessageStreamData(questionElementId, answerElementId, response, displayStreamData);
+    handleMessageStreamData(questionElementId, answerElementId, response);
   } else {
     handleMessageJSONData(questionElementId, answerElementId, response);
   }
@@ -227,7 +230,7 @@ function handleInputQuestion() {
  * Handle event when user click to button send of tab translate
  */
 function handleTranslate(apiKey, chatModel) {
-  const btnAskChatGPT = document.getElementById('btn-translate');
+  const btnAskChatGPT = clearEvents(document.getElementById('btn-translate'));
 
   btnAskChatGPT.addEventListener('click', function () {
     const language = document.getElementById('select-translate-language').value || 'English';
@@ -243,6 +246,7 @@ function handleTranslate(apiKey, chatModel) {
  */
 function handleCorrectGrammar(apiKey, chatModel) {
   const btnAskChatGPT = document.getElementById('btn-correct-grammar');
+  clearEvents(btnAskChatGPT);
 
   btnAskChatGPT.addEventListener('click', function () {
     const language = document.getElementById('select-correct-grammar-language').value || 'English';
@@ -258,6 +262,7 @@ function handleCorrectGrammar(apiKey, chatModel) {
  */
 function handleAskAnything(apiKey, chatModel) {
   const btnAskChatGPT = document.getElementById('btn-ask-anything');
+  clearEvents(btnAskChatGPT);
 
   btnAskChatGPT.addEventListener('click', function () {
     const message = document.getElementById('tab-ask-anything-question').value;
