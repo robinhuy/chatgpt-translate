@@ -1,7 +1,7 @@
+const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
 const STORAGE_API_KEY = 'storage-chatgpt-api-key';
 const STORAGE_CHAT_MODEL = 'storage-model';
 const STORAGE_ACTIVE_TAB = 'storage-active-tab';
-const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 /**
  * Clear events of an element and its surroundings
@@ -245,8 +245,7 @@ function handleTranslate(apiKey, chatModel) {
  * Handle event when user click to button send of tab correct grammar
  */
 function handleCorrectGrammar(apiKey, chatModel) {
-  const btnAskChatGPT = document.getElementById('btn-correct-grammar');
-  clearEvents(btnAskChatGPT);
+  const btnAskChatGPT = clearEvents(document.getElementById('btn-correct-grammar'));
 
   btnAskChatGPT.addEventListener('click', function () {
     const language = document.getElementById('select-correct-grammar-language').value || 'English';
@@ -261,8 +260,7 @@ function handleCorrectGrammar(apiKey, chatModel) {
  * Handle event when user click to button send of tab ask anything
  */
 function handleAskAnything(apiKey, chatModel) {
-  const btnAskChatGPT = document.getElementById('btn-ask-anything');
-  clearEvents(btnAskChatGPT);
+  const btnAskChatGPT = clearEvents(document.getElementById('btn-ask-anything'));
 
   btnAskChatGPT.addEventListener('click', function () {
     const message = document.getElementById('tab-ask-anything-question').value;
