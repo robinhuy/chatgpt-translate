@@ -184,6 +184,7 @@ function handleOnclickTab() {
       // Show chosen tab content
       const tabId = this.children[0].getAttribute('href').replace('#', '');
       document.getElementById(tabId).style.display = 'block';
+      document.getElementById(tabId + '-question').value = localStorage.getItem(tabId + '-question') || '';
     });
   }
 
@@ -219,6 +220,7 @@ function handleInputQuestion() {
     const element = event.target;
     element.style.height = '5px';
     element.style.height = element.scrollHeight + 'px';
+    localStorage.setItem(element.id, element.value);
   }
 
   document.getElementById('tab-translate-question').addEventListener('input', autoGrow);
