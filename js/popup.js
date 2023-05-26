@@ -76,6 +76,7 @@ async function handleMessageStreamData(questionElementId, answerElementId, respo
 
   answerElement.innerHTML = `<h3>Question:</h3>${question}<br/><br/><h3>Answer:</h3>`;
   questionElement.value = '';
+  localStorage.setItem(questionElementId, '');
 
   for (;;) {
     const { done, value } = await reader.read();
@@ -117,6 +118,7 @@ async function handleMessageJSONData(questionElementId, answerElementId, respons
     answerElementId
   ).innerHTML = `<h3>Question:</h3>${question}<br/><br/><h3>Answer:</h3>${answer}`;
   questionElement.value = '';
+  localStorage.setItem(questionElementId, '');
 }
 
 /**
@@ -184,6 +186,8 @@ function handleOnclickTab() {
       // Show chosen tab content
       const tabId = this.children[0].getAttribute('href').replace('#', '');
       document.getElementById(tabId).style.display = 'block';
+
+      // Load old question
       document.getElementById(tabId + '-question').value = localStorage.getItem(tabId + '-question') || '';
     });
   }
