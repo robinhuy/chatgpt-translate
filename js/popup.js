@@ -188,7 +188,9 @@ function handleOnclickTab() {
       document.getElementById(tabId).style.display = 'block';
 
       // Load old question
-      document.getElementById(tabId + '-question').value = localStorage.getItem(tabId + '-question') || '';
+      const questionElement = document.getElementById(tabId + '-question');
+      questionElement.value = localStorage.getItem(tabId + '-question') || '';
+      questionElement.focus();
     });
   }
 
